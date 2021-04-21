@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import { INotification, IReseponseError } from "./App";
+import { INotification, IResponseError } from "./App";
 
 export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', ...rest }: AxiosRequestConfig,
   setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: React.Dispatch<React.SetStateAction<INotification>>) {
@@ -33,7 +33,7 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
     return Promise.reject(error);
   });
 
-  let axiosResponse: AxiosResponse<TViewModel | IReseponseError>;
+  let axiosResponse: AxiosResponse<TViewModel | IResponseError>;
 
   try {
     axiosResponse = await api.request<TViewModel>({ ...rest, method }) as AxiosResponse<TViewModel>;
@@ -46,7 +46,7 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
       headers: rest.headers,
       config: rest,
       request: rest,
-    } as AxiosResponse<IReseponseError>;
+    } as AxiosResponse<IResponseError>;
 
 
     if (error && axios.isAxiosError(error)) {
@@ -70,7 +70,7 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
     }
 
     setLoad(false);
-    setNotification({ open: true, status: 'error', message: (axiosResponse.data as IReseponseError).message });
+    setNotification({ open: true, status: 'error', message: (axiosResponse.data as IResponseError).message });
   }
 
   return axiosResponse.data;

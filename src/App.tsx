@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface IReseponseError {
+export interface IResponseError {
   status: Status;
   message: string;
 }
@@ -75,7 +75,7 @@ function App() {
   const handleSubmitAsync = async () => {
     const response = await ApiServiceRequest<any>({ method: 'get', url: 'blocos' }, setLoading, setNotification);
 
-    if (!(response as IReseponseError)) {
+    if (!(response as IResponseError)) {
       console.log('deu certo');
     }
   };
