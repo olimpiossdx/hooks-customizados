@@ -53,18 +53,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface IReseponse {
-  id: string;
+export interface IReseponseError {
+  status: Status;
+  message: string;
 }
+
+type Status = 'success' | 'info' | 'warning' | 'error';
+
+export interface INotification {
+  open: boolean;
+  status: Status;
+  message: string;
+};
+
 
 function App() {
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [notification, setNotification] = useState<INotification>({ open: false, status: 'success', message: '' });
   const classes = useStyles();
 
   const handleSubmitAsync = async () => {
-    const response = await ApiServiceRequest<IReseponse>({ method: 'post', url: 'download/asdasd', data: { item: 1 } }, setLoading, setOpen);
-    console.log('response', response);
+    const response = await ApiServiceRequest<any>({ method: 'get', url: 'blocos' }, setLoading, setNotification);
+
+    if (!(response as IReseponseError)) {
+      console.log('deu certo');
+    }
   };
 
   const handleClose = (event: any, reason: any) => {
@@ -72,15 +85,15 @@ function App() {
       return;
     }
 
-    setOpen(false);
+    setNotification({ ...notification, open: false });
   };
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
-        <Alert onClose={handleClose} severity="error">
-          Ocorreu um erro, caso persista contacte o suporte
+      <Snackbar open={notification.open} autoHideDuration={6000} onClose={handleClose} anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+        <Alert onClose={handleClose} severity={notification.status}>
+          {notification.message}
         </Alert>
       </Snackbar>
       <div className={classes.paper}>

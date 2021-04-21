@@ -1,11 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
+import { INotification, IReseponseError } from "./App";
 
-export async function ApiServiceRequest<TViewModel>({ baseURL = 'http://localhost:3333', method = 'get', ...rest }: AxiosRequestConfig,
-  setLoad: React.Dispatch<React.SetStateAction<boolean>>, setMessage: React.Dispatch<React.SetStateAction<boolean>>): Promise<TViewModel> {
+export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', ...rest }: AxiosRequestConfig,
+  setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: React.Dispatch<React.SetStateAction<INotification>>) {
   let counter = 0;
   const maxRetry = 2;
   setLoad(true);
+
   const api: AxiosInstance = axios.create({ baseURL });
+
   api.interceptors.request.use(function (config) {
     // Do something before request is sent
     return config;
@@ -27,11 +30,48 @@ export async function ApiServiceRequest<TViewModel>({ baseURL = 'http://localhos
       return new Promise((resolve) => resolve(api.request<TViewModel>({ ...rest, method })));
     };
 
-    setLoad(false);
-    setMessage(true);
     return Promise.reject(error);
   });
 
-  const response = await api.request<TViewModel>({ ...rest, method }) as AxiosResponse<TViewModel>;
-  return response.data;
+  let axiosResponse: AxiosResponse<TViewModel | IReseponseError>;
+
+  try {
+    axiosResponse = await api.request<TViewModel>({ ...rest, method }) as AxiosResponse<TViewModel>;
+  } catch (error) {
+
+    axiosResponse = {
+      data: { status: 'error', message: 'Ocorreu um erro, caso persista, contacte o suporte' },
+      status: 500,
+      statusText: 'Internal Server Error',
+      headers: rest.headers,
+      config: rest,
+      request: rest,
+    } as AxiosResponse<IReseponseError>;
+
+
+    if (error && axios.isAxiosError(error)) {
+      if (error.response?.status !== 500) {
+        axiosResponse = {
+          ...axiosResponse,
+          status: error.response?.status as number,
+          data: error.response?.data,
+        }
+      }
+
+      axiosResponse = {
+        ...axiosResponse,
+        status: error.response?.status as number,
+        statusText: error.response?.statusText as string,
+        headers: error.response?.headers as AxiosRequestConfig,
+        config: error.response?.config as AxiosRequestConfig,
+        request: error.response?.request,
+      };
+
+    }
+
+    setLoad(false);
+    setNotification({ open: true, status: 'error', message: (axiosResponse.data as IReseponseError).message });
+  }
+
+  return axiosResponse.data;
 };
