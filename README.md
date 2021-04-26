@@ -1,4 +1,4 @@
-# hooks-customzados
+# hooks-customizados, funções e exmplos para integração
 Repositório para ambiente de testes simples de react-hooks customzados.
 # Getting Started with Create React App
 
