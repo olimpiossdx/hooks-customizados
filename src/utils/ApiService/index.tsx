@@ -17,7 +17,7 @@ export const newCancellationToken = () => {
   cancellationToken = axios.CancelToken.source();
 };
 
-export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
+export default async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
   setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
   newCancellationToken();
   let counter = 0;
