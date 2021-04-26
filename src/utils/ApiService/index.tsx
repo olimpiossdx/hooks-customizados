@@ -1,6 +1,6 @@
 import React from 'react';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
-import { INotification, IResponseError } from "./App";
+import { INotification, IResponseError } from "../../App";
 
 interface IApiServiceConfig extends AxiosRequestConfig {
   retry?: number;

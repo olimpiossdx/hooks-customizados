@@ -14,7 +14,7 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { ApiServiceRequest } from './api';
+import ApiServiceRequestAsync from './utils/ApiService';
 
 function Alert(props: any) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -73,7 +73,7 @@ function App() {
   const classes = useStyles();
 
   const handleSubmitAsync = async () => {
-    const response = await ApiServiceRequest<any>({ method: 'get', url: 'blocos' }, setLoading, setNotification);
+    const response = await ApiServiceRequestAsync<any>({ method: 'get', url: 'blocos' }, setLoading, setNotification);
 
     if (!(response as IResponseError)) {
       console.log('deu certo');
