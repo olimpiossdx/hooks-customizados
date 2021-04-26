@@ -1,3 +1,4 @@
+import React from 'react';
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from "axios";
 import { INotification, IResponseError } from "./App";
 
@@ -16,10 +17,9 @@ export const newCancellationToken = () => {
   cancellationToken = axios.CancelToken.source();
 };
 
-const api: AxiosInstance = axios.create({ baseURL: 'http://localhost:3333', cancelToken: cancellationToken.token });
-export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://localhost:3333', method = 'get', ...rest }: AxiosRequestConfig,
-  setLoad: React.Dispatch<React.SetStateAction<boolean>>, setNotification: React.Dispatch<React.SetStateAction<INotification>>) {
- newCancellationToken();
+export async function ApiServiceRequestAsync<TViewModel = any>({ method = 'get', retry = 2, retryDelay = 3000, ...rest }: IApiServiceConfig,
+  setLoad?: React.Dispatch<React.SetStateAction<boolean>>, setNotification?: (message: Omit<INotification, "id">) => void) {
+  newCancellationToken();
   let counter = 0;
 
   setLoad && setLoad(true);
@@ -27,12 +27,12 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
 
   api.interceptors.request.use(function (config) {
     config.cancelToken = cancellationToken.token;
-    
-     if (!config.url?.includes('login')) {
-       const localStorageToken = localStorage.getItem('@sisag:token') as string;
-       const token = JSON.parse(localStorageToken);
-       config.headers.authorization = `Bearer ${token}`;
-      };
+
+    if (!config.url?.includes('login')) {
+      const localStorageToken = localStorage.getItem('@sisag:token') as string;
+      const token = JSON.parse(localStorageToken);
+      config.headers.authorization = `Bearer ${token}`;
+    };
     // Do something before request is sent
     return config;
   }, function (error) {
@@ -48,7 +48,7 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
   }, function (error: AxiosError) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-  if (counter < retry) {
+    if (counter < retry) {
       counter += 1;
       return new Promise((resolve) => setTimeout(() => resolve(api.request<TViewModel>({ ...rest, method })), retryDelay));
     };
@@ -84,17 +84,17 @@ export async function ApiServiceRequest<TViewModel = any>({ baseURL = 'http://lo
           request: error.response.request,
         }
       }
-      
+
       //TODO:alterar para um api de contexto
       if (!axios.isCancel(error) && error.response?.status === 401) {
-        setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
+        setNotification && setNotification({ open: true, status: 'error', message: (axiosResponse.data as IResponseError).message });
         setTimeout(() => {
           localStorage.removeItem('@sisag:token');
           localStorage.removeItem('@sisag:user');
           window.location.replace('/');
         }, 2100);
       } else {
-        setNotification && setNotification({ tipo: 'error', descricao: (axiosResponse.data as IResponseError).message });
+        setNotification && setNotification({ open: true, status: 'error', message: (axiosResponse.data as IResponseError).message });
       }
     };
   };
