@@ -1,5 +1,5 @@
 # hooks-customizados, funções e exmplos para integração
-Repositório para ambiente de testes simples de react-hooks customzados.
+Repositório para ambiente de testes simples de react-hooks customizados.
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
