@@ -1,9 +1,10 @@
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect, useCallback, useState, HtmlHTMLAttributes } from 'react';
 
-import { FormControl, InputLabel, Input, FormHelperText, FormHelperTextTypeMap } from '@material-ui/core';
+import { FormControl, InputLabel, Input, FormHelperText, FormHelperTextTypeMap, InputLabelProps } from '@material-ui/core';
 import { InputProps } from '@material-ui/core/Input';
 import { InputBaseComponentProps } from '@material-ui/core/InputBase';
 import { fireEvent } from '@testing-library/dom';
+import TouchRipple from '@material-ui/core/ButtonBase/TouchRipple';
 
 export type FieldState<T> = {
   hasError: boolean,
@@ -21,6 +22,9 @@ interface FieldProps extends InputProps {
 const InputField2: React.FC<FieldProps> = (props) => {
   const refInput = useRef<HTMLInputElement>();
   const refHelper = useRef<HTMLElement>();
+  const refLabel = useRef<HTMLLabelElement>();
+  let x = false;
+
   const error = { erro: false, message: '' };
   let isError = undefined;
 
@@ -39,16 +43,23 @@ const InputField2: React.FC<FieldProps> = (props) => {
     const { current } = refInput;
 
     const isEmailValid = current && current.value ? emailRegExp.test(current.value) : false;
-
+    // console.log('refLabel.current', refLabel.current?.classList.add('Mui-error'));
+    // console.log('refLabel.current', refLabel.current);
+    // Mui-error Mui-error
 
 
     if ((!this.validity.valid || !isEmailValid) && refHelper.current) {
+
 
       refHelper.current.innerText = 'endereço de e-mail inválido';
       isError = true;
     } else if (refHelper.current) {
       refHelper.current.innerText = '';
-    }
+    };
+
+    x = true;
+
+    console.log(x, refHelper);
   };
 
   useEffect(() => {
@@ -59,24 +70,24 @@ const InputField2: React.FC<FieldProps> = (props) => {
 
     current?.addEventListener('input', handleValidate);
 
+
     return () => {
       current?.removeEventListener('focus', handleFocus);
       current?.removeEventListener('blur', handleBlur);
       current?.addEventListener('input', handleValidate);
     }
-  }, [handleValidate]);
+  });
 
-  console.log('isError', isError);
 
   return (<FormControl fullWidth>
-    <InputLabel error={isError} htmlFor={`input-${props.name}`}>
+    <InputLabel innerRef={refLabel} error={true} htmlFor={`input-${props.name}`}>
       {props.label}
     </InputLabel>
     <Input
       id={`input-${props.name}`}
       fullWidth
       {...props}
-      error={isError}
+      error={!!refHelper?.current?.textContent}
       inputRef={refInput}
 
     // ref={fieldRef}
