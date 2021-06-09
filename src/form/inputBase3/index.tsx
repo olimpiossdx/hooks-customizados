@@ -69,7 +69,7 @@ function InputField3() {
       <p style={{ width: "300px" }}>
         <label htmlFor="mail" style={{ width: "300px" }}>
           <span>Por favor escreva seu email:</span>
-          <input type="text" className="mail" id="mail" name="mail" ref={emailRef} />
+          <input type="text" className="mail" id="mail" name="mail" ref={emailRef} width='100%' />
           <span className="error" aria-live="polite"></span>
         </label>
       </p>
