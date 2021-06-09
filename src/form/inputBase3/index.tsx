@@ -15,8 +15,12 @@ function InputField3() {
       email.className = "valid";
       error.current.nextSibling.innerHTML = "";
       error.current.nextSibling.className = "error";
+
     } else {
       email.className = "invalid";
+      error.current.nextSibling.className = "error";
+      error.current.nextSibling.innerHTML = "Informe email correto!";
+      error.current.nextSibling.className = "error active";
     }
 
     console.log(e.target.value, test);
