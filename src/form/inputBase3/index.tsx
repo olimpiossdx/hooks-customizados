@@ -51,26 +51,28 @@ function InputField3() {
   };
 
   useEffect(() => {
-    emailRef.current.addEventListener('input', handleChange);
     emailRef.current.addEventListener('load', load);
-
+    emailRef.current.addEventListener('input', handleChange);
     formRef.current.addEventListener('submit', handleSubmit);
 
     return () => {
-      // emailRef.current.removeEventListner('load', load);
-      // emailRef.current.removeEventListner('input', handleChange);
+      console.log('emailRef.current', emailRef.current);
+      console.log('formRef.current', formRef.current);
+      // emailRef.current && emailRef.current?.removeEventListner('load', load);
+      // emailRef.current && emailRef.current?.removeEventListner('input', handleChange);
+      // formRef.current && formRef.current?.removeEventListner('submit', handleSubmit);
     };
-  })
+  }, [])
 
   return (
     <form ref={formRef} style={{ width: '100%' }}>
-      <label htmlFor="mail">
-        <span>Please enter an email address:</span>
-        <input type="text" className="mail" id="mail" name="mail" ref={emailRef} />
-        <span className="error" aria-live="polite"></span>
-        <br />
-      </label>
-      <br />
+      <p style={{ width: "300px" }}>
+        <label htmlFor="mail" style={{ width: "300px" }}>
+          <span>Por favor escreva seu email:</span>
+          <input type="text" className="mail" id="mail" name="mail" ref={emailRef} />
+          <span className="error" aria-live="polite"></span>
+        </label>
+      </p>
       <button type="submit">Submit</button>
     </form>
   );
