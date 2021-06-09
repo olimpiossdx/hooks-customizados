@@ -1,11 +1,15 @@
+import React from 'react'
 import InputField2 from '../../form/InputBase2'
+import InputField3 from '../../form/inputBase3'
 
 
 const FormValidation = () => {
   return (
-    <div style={{ width: 300, alignContent: 'center' }}>
+    <div
+    // style={{ width: 400, alignContent: 'center' }}
+    >
       Adicionar validações para formulários;
-      <InputField2 type='email' label='Teste' name='nome' defaultValue='teste' />
+      <InputField3 />
     </div>
   )
 }
