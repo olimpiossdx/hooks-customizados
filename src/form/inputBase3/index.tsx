@@ -7,7 +7,7 @@ function InputField3() {
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   const error = emailRef;
 
-  const handleChange = function (this: HTMLInputElement, _e: Event) {
+  const handleChange = React.useCallback(function (this: HTMLInputElement, _e: Event) {
     const email = emailRef.current;
     const test = (email && email.value.length === 0) || emailRegExp.test(email?.value || '');
 
@@ -22,7 +22,7 @@ function InputField3() {
       error.current!.nextElementSibling!.innerHTML = "Informe email correto!";
       error.current!.nextElementSibling!.className = "error active";
     }
-  };
+  }, [error]);
 
   const load = () => {
     const test = emailRef.current!.value.length === 0 || emailRegExp.test(emailRef.current!.value);
@@ -48,28 +48,20 @@ function InputField3() {
   };
 
   useEffect(() => {
-
     emailRef.current?.addEventListener('load', load);
     emailRef.current?.addEventListener('input', handleChange);
-
-    return () => {
-      emailRef.current!.removeEventListener('load', load);
-      emailRef.current!.removeEventListener('input', handleChange);
-    };
   }, [handleChange]);
 
-  return (
-    <form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
-      <p style={{ width: "300px" }}>
-        <label htmlFor="mail" style={{ width: "300px" }}>
-          <span>Por favor escreva seu email:</span>
-          <input type="text" className="mail" id="mail" name="mail" ref={emailRef} width='100%' />
-          <span className="error" aria-live="polite"></span>
-        </label>
-      </p>
-      <button type="submit">Submit</button>
-    </form>
-  );
+  return (<form ref={formRef} onSubmit={handleSubmit} style={{ width: '100%' }}>
+    <p style={{ width: "300px" }}>
+      <label htmlFor="mail" style={{ width: "300px" }}>
+        <span>Por favor escreva seu email:</span>
+        <input type="text" className="mail" id="mail" name="mail" ref={emailRef} width='100%' />
+        <span className="error" aria-live="polite"></span>
+      </label>
+    </p>
+    <button type="submit">Submit</button>
+  </form>);
 }
 
 export default InputField3;
