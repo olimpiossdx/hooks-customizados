@@ -3,7 +3,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import FilledInput from '@material-ui/core/FilledInput';
 import FormControl from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import Input, { InputProps } from '@material-ui/core/Input';
+import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import { Button } from '@material-ui/core';
@@ -33,7 +33,7 @@ function InputField4() {
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   const inputLabelRef = useRef() as React.RefObject<HTMLLabelElement>;
   const inputRef = useRef<HTMLDivElement>();
-  const error = emailRef;
+  // const error = emailRef;
 
   const handleChange1 = React.useCallback(function (this: HTMLInputElement, _e: Event) {
 
@@ -49,7 +49,7 @@ function InputField4() {
       inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-error Mui-error MuiFormLabel-filled'
       inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-error Mui-error MuiInputBase-formControl MuiInput-formControl';
     }
-  }, [error]);
+  }, []);
 
   const load = () => {
     const test = emailRef.current!.value.length === 0 || emailRegExp.test(emailRef.current!.value);
@@ -59,7 +59,7 @@ function InputField4() {
 
   const handleSubmit = function (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const email = emailRef.current;
+    // const email = emailRef.current;
     // const test = email?.value.length === 0 || emailRegExp.test(email?.value || '');
 
     // if (!test && email && error.current && error.current.nextElementSibling) {
