@@ -1,16 +1,14 @@
 import React, { useRef, useEffect } from 'react';
+import { InputHTMLAttributes } from 'react';
 import './styles.css';
 
+// eslint-disable-next-line no-control-regex
 const emailRegExp = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/
 
-type InputProps = {
-  value?: string;
-};
+type InputProps = InputHTMLAttributes<HTMLInputElement>;
 
-const InputField3: React.FC<InputProps> = ({
-  value
-}) => {
-  const emailRef = useRef({ defaultValue: value }) as React.RefObject<HTMLInputElement>;
+const InputField3: React.FC<InputProps> = ({ children, ...props }) => {
+  const emailRef = useRef(props) as unknown as React.RefObject<HTMLInputElement>;
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
 
   const handleChange = React.useCallback(function (this: HTMLInputElement, _e: Event) {
@@ -75,7 +73,7 @@ const InputField3: React.FC<InputProps> = ({
       <p>
         <label htmlFor='mail'>
           <span>Please enter an email address:</span>
-          <input type='text' className='mail' id='mail' name='mail' ref={emailRef} defaultValue={value} />
+          <input {...props} ref={emailRef} />
           <span className='error' aria-live='polite'></span>
         </label>
       </p>

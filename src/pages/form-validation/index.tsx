@@ -5,9 +5,13 @@ import InputField3 from '../../form/inputBase3'
 
 
 const FormValidation = () => {
+  const model = {
+    email: 'email@asd'
+  };
+
   return (<>
     Adicionar validações para formulários;
-    <InputField3 value={'teste'} />
+    <InputField3 type='text' className='mail' id='mail' name='mail' defaultValue={model.email} />
     {/* <InputField4 /> */}
 
   </>)
