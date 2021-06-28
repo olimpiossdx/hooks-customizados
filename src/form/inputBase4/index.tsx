@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import FilledInput from '@material-ui/core/FilledInput';
-import FormControl from '@material-ui/core/FormControl';
+import FormControl, { FormControlProps, FormControlState, useFormControl } from '@material-ui/core/FormControl';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-const emailRegExp = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.)+(?:[a-zA-Z0-9-]+)*$/
+const emailRegExp = /^[a-z0-9.]+@[a-z0-9]+\.[a-z]+([a-z]+)?$/i
 
 function InputField4() {
   const [name, setName] = React.useState('Composed TextField');
@@ -33,11 +33,14 @@ function InputField4() {
   const formRef = useRef() as React.MutableRefObject<HTMLFormElement>;
   const inputLabelRef = useRef() as React.RefObject<HTMLLabelElement>;
   const inputRef = useRef<HTMLDivElement>();
+  const x = useFormControl();
+  const formControlRef = useRef() as React.RefObject<any>;
   // const error = emailRef;
 
+  console.log(useFormControl());
   const handleChange1 = React.useCallback(function (this: HTMLInputElement, _e: Event) {
 
-    console.log('inputRef.current', (inputRef.current!.lastElementChild as HTMLInputElement).value);
+    // console.log('inputRef.current', (inputRef.current!.lastElementChild as HTMLInputElement).value);
 
     const input = (inputRef.current!.lastElementChild as HTMLInputElement);
     const test = input.value.length === 0 || emailRegExp.test(input.value);
@@ -45,33 +48,49 @@ function InputField4() {
     if (test) {
       inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-focused Mui-focused';
       inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-focused MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = false;
+
     } else {
       inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-error Mui-error MuiFormLabel-filled'
       inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-error Mui-error MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = true;
     }
-  }, []);
+    console.log(formControlRef.current);
+
+  }, [inputRef]);
 
   const load = () => {
-    const test = emailRef.current!.value.length === 0 || emailRegExp.test(emailRef.current!.value);
-    emailRef.current!.className = test ? 'valid' : 'invalid';
+    const input = (inputRef.current!.lastElementChild as HTMLInputElement);
+    const test = input.value.length === 0 || emailRegExp.test(input.value);
+
+    if (test) {
+      inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-focused Mui-focused';
+      inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-focused MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = false;
+    } else {
+      inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-error Mui-error MuiFormLabel-filled'
+      inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-error Mui-error MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = true;
+    };
+    console.log(formControlRef.current);
 
   };
 
   const handleSubmit = function (event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    // const email = emailRef.current;
-    // const test = email?.value.length === 0 || emailRegExp.test(email?.value || '');
+    const input = (inputRef.current!.lastElementChild as HTMLInputElement);
+    const test = input.value.length === 0 || emailRegExp.test(input.value);
 
-    // if (!test && email && error.current && error.current.nextElementSibling) {
-    //   email.className = 'invalid';
-    //   error.current.nextElementSibling.innerHTML = 'Informe email correto!';
-    //   error.current.nextElementSibling.className = 'error active';
-    //   return false;
-    // } else {
-    //   email!.className = 'valid';
-    //   error.current!.nextElementSibling!.innerHTML = '';
-    //   error.current!.nextElementSibling!.className = 'error';
-    // }
+    if (test) {
+      inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-focused Mui-focused';
+      inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-focused MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = false;
+    } else {
+      inputLabelRef.current!.className = 'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink Mui-error Mui-error MuiFormLabel-filled'
+      inputRef.current!.className = 'MuiInputBase-root MuiInput-root MuiInput-underline Mui-error Mui-error MuiInputBase-formControl MuiInput-formControl';
+      formControlRef.current!.error = true;
+    }
+    console.log(formControlRef.current);
   };
 
   useEffect(() => {
@@ -81,12 +100,14 @@ function InputField4() {
 
   return (<form ref={formRef} onSubmit={handleSubmit} className={classes.root} noValidate autoComplete='off'>
 
-    <FormControl>
+    <FormControl ref={formControlRef}>
       <InputLabel htmlFor='input-simple' aria-describedby='input-simple' ref={inputLabelRef}>Name</InputLabel>
-      <Input id='input-simple' ref={inputRef} />
+      <Input name='input-simple' id='input-simple' aria-describedby='input-simple-text' ref={inputRef} />
+      <Button type='submit'>submit</Button>
     </FormControl>
 
-    <FormControl>
+
+    {/* <FormControl>
       <InputLabel htmlFor='component-helper'>Name</InputLabel>
       <Input
         id='component-helper'
@@ -118,8 +139,8 @@ function InputField4() {
     <FormControl variant='filled'>
       <InputLabel htmlFor='component-filled'>Name</InputLabel>
       <FilledInput id='component-filled' value={name} onChange={handleChange} />
-    </FormControl>
-    <Button type='submit'>submit</Button>
+    </FormControl> */}
+
   </form>);
 }
 
