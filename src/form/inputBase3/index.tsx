@@ -5,10 +5,11 @@ import './styles.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   validated?: ((value: any) => boolean) | RegExp;
+  label?: string;
 };
 
 const InputField3: React.FC<InputProps> = ({
-  children, validated, required, ...props
+  children, validated, label, required, ...props
 }) => {
   const emailRef = useRef({ ...props, required: required }) as unknown as React.RefObject<HTMLInputElement>;
 
@@ -85,10 +86,9 @@ const InputField3: React.FC<InputProps> = ({
 
   return (<>
     <label htmlFor='mail'>
-      <span>Please enter an email address:</span>
+      {label && <span>{label}</span>}
       <br />
       <input {...props} ref={emailRef} />
-      <br />
       <span className='error' aria-live='polite'></span>
     </label>
   </>);

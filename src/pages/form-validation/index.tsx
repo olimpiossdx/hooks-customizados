@@ -26,8 +26,16 @@ const FormValidation = () => {
       Adicionar validações para formulários;
     </p>
     <br />
-    <InputField3 type='password' id='mail' className='password' name='password' required
-      onChange={handelChange} defaultValue={model.email} validated={emailRegExp} />
+    <InputField3
+      type='password'
+      id='mail'
+      name='password'
+      label='Please enter an email address:'
+      className='password'
+      onChange={handelChange}
+      defaultValue={model.email}
+      required
+      validated={emailRegExp} />
     <br />
     <InputField3 type='text' id='text' className='mail' name='nome'
       onChange={handelChangeText} value={text}
