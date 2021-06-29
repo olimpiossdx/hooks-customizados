@@ -1,17 +1,37 @@
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
 // import InputField2 from '../../form/InputBase2'
 // import InputField4 from '../../form/inputBase4'
 import InputField3 from '../../form/inputBase3'
 
 
 const FormValidation = () => {
-  const model = {
-    email: 'email@asd'
+  const [text, setText] = useState('asd')
+  const model = { email: 'minhasenha' };
+
+  // eslint-disable-next-line no-control-regex
+  const emailRegExp = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
+
+  const handelChange = (event: ChangeEvent<HTMLInputElement>) => {
+
+    console.log(event.target.value);
+    console.log(event.target);
+  };
+
+  const handelChangeText = (event: ChangeEvent<HTMLInputElement>) => {
+    setText(event.target.value)
   };
 
   return (<>
-    Adicionar validações para formulários;
-    <InputField3 type='text' className='mail' id='mail' name='mail' defaultValue={model.email} />
+    <p>
+      Adicionar validações para formulários;
+    </p>
+    <br />
+    <InputField3 type='password' id='mail' className='password' name='password' required
+      onChange={handelChange} defaultValue={model.email} validated={emailRegExp} />
+    <br />
+    <InputField3 type='text' id='text' className='mail' name='nome'
+      onChange={handelChangeText} value={text}
+    />
     {/* <InputField4 /> */}
 
   </>)
