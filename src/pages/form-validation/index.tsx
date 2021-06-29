@@ -1,7 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
+import Button from '../../components/button';
+import Form from '../../components/form';
+
 // import InputField2 from '../../form/InputBase2'
 // import InputField4 from '../../form/inputBase4'
-import InputField3 from '../../form/inputBase3'
+import InputField3 from '../../components/form/inputBase3'
 
 
 const FormValidation = () => {
@@ -21,7 +24,7 @@ const FormValidation = () => {
     setText(event.target.value)
   };
 
-  return (<>
+  return (<Form>
     <p>
       Adicionar validações para formulários;
     </p>
@@ -41,8 +44,17 @@ const FormValidation = () => {
       onChange={handelChangeText} value={text}
     />
     {/* <InputField4 /> */}
+    <Button variant='Text' startIcon iconName='favorite'>
+      variant ext
+    </Button>
+    <Button variant='Outlined'>
+      variant outlined
+    </Button>
+    <Button>
+      variant container [padrão]
+    </Button>
 
-  </>)
+  </Form>)
 }
 
 export default FormValidation
