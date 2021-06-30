@@ -44,15 +44,16 @@ const FormValidation = () => {
       onChange={handelChangeText} value={text}
     />
     {/* <InputField4 /> */}
-    <Button variant='Text' startIcon iconName='favorite'>
+    <Button >
       variant ext
     </Button>
-    <Button variant='Outlined'>
+    <Button>
       variant outlined
     </Button>
-    <Button>
-      variant container [padrão]
+    <Button >
+      variant cont
     </Button>
+
 
   </Form>)
 }
