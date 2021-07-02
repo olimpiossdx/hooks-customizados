@@ -1,3 +1,7 @@
-@use "@material/button";
+@use "@material/ripple";
 
-@include button.core-styles;
+.my-surface {
+  @include ripple.surface;
+  @include ripple.radius-bounded;
+  @include ripple.states;
+}

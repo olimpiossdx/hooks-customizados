@@ -1,4 +1,5 @@
-import { FC, ButtonHTMLAttributes, ReactNode } from 'react';
+import { MDCRipple } from '@material/ripple';
+import { FC, ButtonHTMLAttributes, ReactNode, useRef, useEffect } from 'react';
 import './styles.scss';
 
 type Variant = 'Text' | 'Outlined' | 'Container' | 'Toggle';
@@ -13,8 +14,21 @@ interface IButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: FC<IButtonProps> = ({
   variant = 'Container', endIcon, startIcon, iconName, children, disabled, ...props
 }) => {
+  const buttonRef = useRef() as React.RefObject<HTMLButtonElement>;
   let classNameButton = 'mdc-button mdc-button--raised';
   let classNameSpan = 'mdc-button__label';
+
+  useEffect(() => {
+    if (buttonRef.current) {
+      // buttonRef.current.className = ''
+      console.log(new MDCRipple(buttonRef.current));
+      console.log('buttonRef', buttonRef.current);
+    }
+    return () => {
+
+    }
+  }, []);
+
 
   if (variant === 'Text') {
     classNameButton.replace('--raised', '');
@@ -36,25 +50,25 @@ const Button: FC<IButtonProps> = ({
   console.log(`classNameButton`, classNameButton);
 
 
-  return (
+  return (<>
     <div className="mdc-touch-target-wrapper">
-      <button className="mdc-button mdc-button--touch">
+      <button className="my-surface" ref={buttonRef}>
         <span className="mdc-button__ripple"></span>
         <span className="mdc-button__label">My Accessible Button</span>
         <span className="mdc-button__touch"></span>
       </button>
     </div>
-    // <div className='mdc-touch-target-wrapper'>
-    //   <button {...props} disabled={disabled} className={classNameButton}>
-    //     {!classNameButton.includes('--rsaised') && <span className='mdc-button__ripple'></span>}
-    //     {startIcon && <i className='material-icons mdc-button__icon' aria-hidden='true'>{iconName}</i>}
-    //     <span className={classNameSpan}>
-    //       {children}
-    //     </span>
-    //     {endIcon && <i className='material-icons mdc-button__icon' aria-hidden='true'>{iconName}</i>}
-    //   </button>
-    // </div>
-  );
+  </>);
+  // <div className='mdc-touch-target-wrapper'>
+  //   <button {...props} disabled={disabled} className={classNameButton}>
+  //     {!classNameButton.includes('--rsaised') && <span className='mdc-button__ripple'></span>}
+  //     {startIcon && <i className='material-icons mdc-button__icon' aria-hidden='true'>{iconName}</i>}
+  //     <span className={classNameSpan}>
+  //       {children}
+  //     </span>
+  //     {endIcon && <i className='material-icons mdc-button__icon' aria-hidden='true'>{iconName}</i>}
+  //   </button>
+  // </div>
 }
 
 export default Button;
