@@ -52,6 +52,20 @@ const Button: FC<IButtonProps> = ({
 
   return (<>
     <div className="mdc-touch-target-wrapper">
+      <button type="button" className="mdc-button cancel">
+        <div className="mdc-button__ripple"></div>
+        <span className="mdc-button__label">
+          Cancel
+        </span>
+      </button>
+
+      <button className="mdc-button mdc-button--raised next" ref={buttonRef}>
+        <div className="mdc-button__ripple"></div>
+        <span className="mdc-button__label">
+          Next
+        </span>
+      </button>
+ 
       <button className="my-surface" ref={buttonRef}>
         <span className="mdc-button__ripple"></span>
         <span className="mdc-button__label">My Accessible Button</span>

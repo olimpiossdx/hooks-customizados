@@ -1,7 +1,12 @@
-@use "@material/ripple";
+@import "@material/button/mdc-button";
 
-.my-surface {
-  @include ripple.surface;
-  @include ripple.radius-bounded;
-  @include ripple.states;
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 300px;
+  margin: auto;
+}
+
+.button-container button {
+  margin: 3px;
 }
