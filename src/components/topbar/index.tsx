@@ -1,25 +1,26 @@
 import React, { useCallback, useRef, useState } from 'react';
 import classnames from 'classnames';
 import { MDCTopAppBarFoundation, MDCFixedTopAppBarFoundation, MDCShortTopAppBarFoundation } from '@material/top-app-bar';
+import { EmotionJSX } from '@emotion/react/types/jsx-namespace';
 
-interface ITopBar {
+interface ITopAppBar {
   alwaysCollapsed: any;
-  className: any;
-  short: any;
-  fixed: any;
-  prominent: any;
-  actionItems: any[];
-  style: any;
-  title: any;
-  navIcon: any;
+  className?: any;
+  short?: any;
+  fixed?: any;
+  prominent?: any;
+  actionItems: EmotionJSX.Element[];
+  style?: any;
+  title?: any;
+  navIcon: EmotionJSX.Element;
 }
 
-const TopBar: React.FC<ITopBar> = ({
-  alwaysCollapsed,
+const TopAppBar: React.FC<ITopAppBar> = ({
+  alwaysCollapsed = false,
   className,
-  short,
-  fixed,
-  prominent,
+  short = false,
+  fixed = false,
+  prominent = false,
   actionItems,
   style,
   title,
@@ -69,11 +70,11 @@ const TopBar: React.FC<ITopBar> = ({
   const initializeFoundation = useCallback(() => {
     if (short) {
       // eslint-disable-next-line react-hooks/exhaustive-deps
-      foundation = new MDCShortTopAppBarFoundation(adapter);
+      foundation = new MDCShortTopAppBarFoundation(adapter());
     } else if (fixed) {
-      foundation = new MDCFixedTopAppBarFoundation(adapter);
+      foundation = new MDCFixedTopAppBarFoundation(adapter());
     } else {
-      foundation = new MDCTopAppBarFoundation(adapter);
+      foundation = new MDCTopAppBarFoundation(adapter());
     }
     foundation.init()
   }, []);
@@ -121,4 +122,4 @@ const TopBar: React.FC<ITopBar> = ({
   )
 }
 
-export default TopBar;
+export default TopAppBar;
