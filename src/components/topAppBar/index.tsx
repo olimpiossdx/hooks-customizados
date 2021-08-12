@@ -28,6 +28,45 @@ const TopAppBar: React.FC<ITopAppBar> = ({ alwaysCollapsed = false, short = fals
     });
   };
 
+  function adapter() {
+    return {
+      hasClass: (className: string) => classes.split(' ').includes(className),
+      addClass: (className: any) => setstate({ ...state, classList: state.classList.add(className) }),
+      removeClass: (className) => {
+        const { classList } = state;
+        classList.delete(className);
+        setstate({ ...state, classList: classList });
+      },
+      setStyle: this.setStyle,
+      getTopAppBarHeight: () => this.topAppBarElement.current.clientHeight,
+      registerScrollHandler: (handler) => window.addEventListener('scroll', handler),
+      deregisterScrollHandler: (handler) => window.removeEventListener('scroll', handler),
+      registerResizeHandler: (handler) => window.addEventListener('resize', handler),
+      deregisterResizeHandler: (handler) => window.removeEventListener('resize', handler),
+      getViewportScrollY: () => window.pageYOffset,
+      getTotalActionItems: () => actionItems && actionItems.length,
+    };
+  }
+
+  const initializeFoundation = () => {
+    if (short) {
+      this.foundation_ = new MDCShortTopAppBarFoundation(this.adapter);
+    } else if (this.props.fixed) {
+      this.foundation_ = new MDCFixedTopAppBarFoundation(this.adapter);
+    } else {
+      this.foundation_ = new MDCTopAppBarFoundation(this.adapter);
+    }
+
+    this.foundation_.init();
+  }
+
+  useEffect(() => {
+    effect
+    return () => {
+      cleanup
+    }
+  }, [input])
+
   return (
     <div>
 
