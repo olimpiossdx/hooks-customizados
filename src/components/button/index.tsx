@@ -65,7 +65,7 @@ const Button: FC<IButtonProps> = ({
           Next
         </span>
       </button>
- 
+
       <button className="my-surface" ref={buttonRef}>
         <span className="mdc-button__ripple"></span>
         <span className="mdc-button__label">My Accessible Button</span>
@@ -86,3 +86,8 @@ const Button: FC<IButtonProps> = ({
 }
 
 export default Button;
+
+
+export const Button1 = React.forwardRef<HTMLButtonElement>((props, ref) => {
+  return (<button {...props} ref={ref}>enviar</button>);
+});
