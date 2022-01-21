@@ -1,4 +1,4 @@
-import React, { createContext, FC, useCallback, useContext, useEffect, useRef } from 'react';
+import React, { createContext, FC, useContext, useEffect, useRef } from 'react';
 import Button from '../button';
 
 interface IFormContext {
@@ -25,28 +25,31 @@ const Form: FC<IForm> = ({ model, children, ...props }) => {
   const mockUp = useRef<{ [key: string]: any }>(model || {});
   const buttonRef = React.createRef<HTMLButtonElement>();
 
-  useEffect(() => {
+  const initialStateButtonRef = () => {
     if (buttonRef.current) {
       buttonRef.current.disabled = true;
     }
-  }, [buttonRef]);
+  };
 
-  const noneInvalid = useCallback(() => {
-    let valid = true;
+  useEffect(initialStateButtonRef);
+
+  const noneInvalid = () => {
+    let hasError = true;
     const fileds = { ...mockUp.current };
 
     if (fileds) {
-      valid = Object.values<IFormContext>(fileds).map((item) => item.hasError).includes(true);
+      hasError = Object.values<IFormContext>(fileds).map((item) => item.hasError).includes(true);
     };
 
     if (buttonRef.current) {
-      buttonRef.current.disabled = valid;
+      buttonRef.current.disabled = hasError;
     }
 
-    return valid;
-  }, [buttonRef]);
+    return hasError;
+  };
 
-  const setModel = useCallback((object: IFormContext) => {
+
+  const setModel = (object: IFormContext) => {
     const mockupRef = mockUp.current!;
 
     if (object === undefined || object === null)
@@ -54,17 +57,17 @@ const Form: FC<IForm> = ({ model, children, ...props }) => {
 
     mockUp.current[object.field] = object;
     noneInvalid();
-    console.log('mockUp', mockUp.current);
-  }, [noneInvalid]);
+    console.log('mockUp', mockUp.current[object.field]);
+  };
 
-  const getModel = useCallback((key?: string) => {
+  const getModel = (key?: string) => {
     const mockupRef = mockUp.current!;
     if (key) {
       return mockupRef[key];
     };
 
     return mockupRef;
-  }, []);
+  };
 
   const deleteModel = (key: string) => {
     delete mockUp.current[key];
@@ -72,7 +75,7 @@ const Form: FC<IForm> = ({ model, children, ...props }) => {
 
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.log('submit - mockUp', mockUp);
   };
 
   return (

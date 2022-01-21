@@ -164,23 +164,23 @@
 
 // export default App;
 export default function App() {
-    const validateMinLength = useCallback((value: string) => {
-        return !(value.length > 5);
-    }, []);
+  const validateMinLength = useCallback((value: string) => {
+    return !(value.length > 4);
+  }, []);
 
-    const validateMaxLength = useCallback((value: string) => {
-        return value.length > 10;
-    }, []);
+  const validateMaxLength = useCallback((value: string) => {
+    return value.length > 10;
+  }, []);
 
-    const validateEmail = useCallback((value: string) => {
-        return !value.includes('@');
-    }, []);
+  const validateEmail = useCallback((value: string) => {
+    return !value.includes('@');
+  }, []);
 
-    return (
-        <Form>
-            <Input name='nome' placeholder='Nome' validate={validateMinLength} helperText='Minímo de 5 caracteres' />
-            <Input name='sobreNome' placeholder='SobreNome' validate={validateMaxLength} helperText='Máximo de 10 caracters' />
-            <Input name='email' type='email' placeholder='Email' validate={validateEmail} helperText='Email inválido' />
-        </Form>
-    );
+  return (
+    <Form>
+      <Input name='nome' placeholder='Nome' validate={validateMinLength} helperText='Minímo de 5 caracteres' required />
+      <Input name='sobreNome' placeholder='SobreNome' validate={validateMaxLength} helperText='Máximo de 10 caracters' />
+      <Input name='email' type='email' placeholder='Email' validate={validateEmail} helperText='Email inválido' />
+    </Form>
+  );
 };
