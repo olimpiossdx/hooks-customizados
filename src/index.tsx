@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import './App.scss';
-// import App from './App';
 import reportWebVitals from './reportWebVitals';
-import FormValidation from './pages/form-validation';
+import TopBarClass from './components/topbar-class';
 
 ReactDOM.render(
   <React.StrictMode>
     {/* <App /> */}
-    <FormValidation />
+    <TopBarClass />
   </React.StrictMode>,
   document.getElementById('root')
 );

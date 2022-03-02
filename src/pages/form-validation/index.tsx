@@ -9,6 +9,16 @@ import Ripple from '../../components/ripple';
 
 
 const FormValidation = () => {
+  const [state, setState] = useState<any>({
+    isFixed: false,
+    isShort: false,
+    isRtl: false,
+    isProminent: false,
+    isAlwaysCollapsed: false,
+    noActionItems: false,
+    shouldReinit: false
+  });
+
   const [text, setText] = useState('asd')
   const model = { email: 'minhasenha' };
 
@@ -59,5 +69,3 @@ const FormValidation = () => {
     
   </Form>)
 }
-
-export default FormValidation
