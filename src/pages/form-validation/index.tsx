@@ -5,6 +5,7 @@ import Form from '../../components/form';
 // import InputField2 from '../../form/InputBase2'
 // import InputField4 from '../../form/inputBase4'
 import InputField3 from '../../components/form/inputBase3'
+import Ripple from '../../components/ripple';
 
 
 const FormValidation = () => {
@@ -54,7 +55,8 @@ const FormValidation = () => {
       variant cont
     </Button>
 
-
+    <Ripple />
+    
   </Form>)
 }
 

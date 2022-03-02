@@ -1,6 +1,6 @@
 import { MDCRipple } from '@material/ripple';
 import { FC, ButtonHTMLAttributes, ReactNode, useRef, useEffect } from 'react';
-import './styles.scss';
+// import './styles.scss';
 
 type Variant = 'Text' | 'Outlined' | 'Container' | 'Toggle';
 
@@ -21,8 +21,8 @@ const Button: FC<IButtonProps> = ({
   useEffect(() => {
     if (buttonRef.current) {
       // buttonRef.current.className = ''
-      console.log(new MDCRipple(buttonRef.current));
-      console.log('buttonRef', buttonRef.current);
+      //console.log(new MDCRipple(buttonRef.current));
+      //console.log('buttonRef', buttonRef.current);
     }
     return () => {
 
@@ -47,7 +47,7 @@ const Button: FC<IButtonProps> = ({
     classNameButton = classNameButton.split('mdc-button')[0];
   };
 
-  console.log(`classNameButton`, classNameButton);
+  // console.log(`classNameButton`, classNameButton);
 
 
   return (<>
